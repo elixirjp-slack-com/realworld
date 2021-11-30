@@ -1,0 +1,27 @@
+<h1>Show Article</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal RealworldWeb.ArticleLive.FormComponent,
+    id: @article.id,
+    title: @page_title,
+    action: @live_action,
+    article: @article,
+    return_to: Routes.article_show_path(@socket, :show, @article) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @article.title %>
+  </li>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @article.body %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.article_show_path(@socket, :edit, @article), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.article_index_path(@socket, :index) %></span>
