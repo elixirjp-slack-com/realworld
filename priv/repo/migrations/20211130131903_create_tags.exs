@@ -3,7 +3,7 @@ defmodule Realworld.Repo.Migrations.CreateTags do
 
   def change do
     create table(:tags) do
-      add :tag, :string
+      add :tag, :string, null: false
 
       timestamps()
     end

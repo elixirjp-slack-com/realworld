@@ -15,4 +15,13 @@ defmodule Realworld.Blogs.Tag do
     |> validate_required([:tag])
     |> unique_constraint(:tag)
   end
+
+  def parse(nil), do: parse("")
+
+  def parse(tags) do
+    tags
+    |> String.split(",")
+    |> Enum.map(&String.trim/1)
+    |> Enum.reject(&(&1 == ""))
+  end
 end
