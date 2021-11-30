@@ -57,6 +57,37 @@ defmodule Realworld.BlogsTest do
       article = article_fixture()
       assert %Ecto.Changeset{} = Blogs.change_article(article)
     end
+
+    @tag :list_articles_by_tag
+    test "list_articles_by_tag/1" do
+      {:ok, %{article: article1}} =
+        Blogs.insert_article_with_tags(%{
+          title: "t",
+          body: "b",
+          tags_string: "Elixir, Phoenix, Nerves, Nx"
+        })
+
+      {:ok, %{article: article2}} =
+        Blogs.insert_article_with_tags(%{
+          title: "t",
+          body: "b",
+          tags_string: "Elixir"
+        })
+
+      assert Blogs.list_articles_by_tag("Elixir")
+             |> Enum.any?(&(&1.id == article1.id))
+
+      assert Blogs.list_articles_by_tag("Elixir")
+             |> Enum.any?(&(&1.id == article2.id))
+
+      assert Blogs.list_articles_by_tag("Phoenix")
+             |> Enum.any?(&(&1.id == article1.id))
+
+      refute Blogs.list_articles_by_tag("Phoenix")
+             |> Enum.any?(&(&1.id == article2.id))
+
+      assert Blogs.list_articles_by_tag("Python") |> Enum.count() |> Kernel.==(0)
+    end
   end
 
   describe "comments" do
