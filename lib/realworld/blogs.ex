@@ -7,6 +7,7 @@ defmodule Realworld.Blogs do
   alias Realworld.Repo
 
   alias Realworld.Blogs.Article
+  alias Realworld.Blogs.Tag
 
   @doc """
   Returns the list of articles.
@@ -196,5 +197,52 @@ defmodule Realworld.Blogs do
   """
   def change_comment(%Comment{} = comment, attrs \\ %{}) do
     Comment.changeset(comment, attrs)
+  end
+
+  def insert_article_with_tags(attrs) do
+    insert_or_update_article_with_tags(%Article{}, attrs)
+  end
+
+  def insert_or_update_article_with_tags(article, attrs) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.run(:tags, fn _repo, _changes ->
+      insert_and_get_all_tags(attrs)
+    end)
+    |> Ecto.Multi.run(:article, fn _repo, changes ->
+      insert_or_update_article(article, attrs, changes)
+    end)
+    |> Repo.transaction()
+  end
+
+  defp insert_and_get_all_tags(attrs) do
+    case Tag.parse(attrs[:tags_string] || attrs["tags_string"]) do
+      [] ->
+        {:ok, []}
+
+      names ->
+        timestamp =
+          NaiveDateTime.utc_now()
+          |> NaiveDateTime.truncate(:second)
+
+        maps =
+          Enum.map(
+            names,
+            &%{
+              tag: &1,
+              inserted_at: timestamp,
+              updated_at: timestamp
+            }
+          )
+
+        Repo.insert_all(Tag, maps, on_conflict: :nothing)
+        query = from t in Tag, where: t.tag in ^names
+        {:ok, Repo.all(query)}
+    end
+  end
+
+  defp insert_or_update_article(article, attrs, %{tags: tags}) do
+    article
+    |> Article.changeset(attrs, tags)
+    |> Repo.insert_or_update()
   end
 end
