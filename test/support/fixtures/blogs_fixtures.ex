@@ -26,7 +26,8 @@ defmodule Realworld.BlogsFixtures do
     {:ok, comment} =
       attrs
       |> Enum.into(%{
-        body: "some body"
+        body: "some body",
+        article_id: Map.get(article_fixture(), :id)
       })
       |> Realworld.Blogs.create_comment()
 

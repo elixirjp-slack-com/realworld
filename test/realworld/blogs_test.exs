@@ -77,7 +77,7 @@ defmodule Realworld.BlogsTest do
     end
 
     test "create_comment/1 with valid data creates a comment" do
-      valid_attrs = %{body: "some body"}
+      valid_attrs = %{body: "some body", article_id: Map.get(article_fixture(), :id)}
 
       assert {:ok, %Comment{} = comment} = Blogs.create_comment(valid_attrs)
       assert comment.body == "some body"
