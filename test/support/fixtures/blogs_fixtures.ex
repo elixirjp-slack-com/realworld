@@ -18,4 +18,19 @@ defmodule Realworld.BlogsFixtures do
 
     article
   end
+
+  @doc """
+  Generate a comment.
+  """
+  def comment_fixture(attrs \\ %{}) do
+    {:ok, comment} =
+      attrs
+      |> Enum.into(%{
+        body: "some body",
+        article_id: Map.get(article_fixture(), :id)
+      })
+      |> Realworld.Blogs.create_comment()
+
+    comment
+  end
 end
