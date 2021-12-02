@@ -8,6 +8,8 @@ defmodule RealworldWeb.ArticleLiveTest do
   @update_attrs %{body: "some updated body", title: "some updated title"}
   @invalid_attrs %{body: nil, title: nil}
 
+  setup :register_and_log_in_user
+
   defp create_article(_) do
     article = article_fixture()
     %{article: article}
