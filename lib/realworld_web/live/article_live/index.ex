@@ -3,10 +3,18 @@ defmodule RealworldWeb.ArticleLive.Index do
 
   alias Realworld.Blogs
   alias Realworld.Blogs.Article
+  alias Realworld.Accounts
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :articles, list_articles())}
+  def mount(_params, session, socket) do
+    current_user = Accounts.get_user_by_session_token(session["user_token"])
+
+    {
+      :ok,
+      socket
+      |> assign(:articles, list_articles())
+      |> assign(:curent_user, current_user)
+    }
   end
 
   @impl true
@@ -23,7 +31,7 @@ defmodule RealworldWeb.ArticleLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Article")
-    |> assign(:article, %Article{})
+    |> assign(:article, %Article{author_id: socket.assigns.curent_user.id})
   end
 
   defp apply_action(socket, :index, _params) do
