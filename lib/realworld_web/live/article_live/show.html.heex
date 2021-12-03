@@ -23,6 +23,21 @@
 
 </ul>
 
+<h2>Comments</h2>
+
+<ul>
+  <%= for comment <- @article.comments do %>
+    <li><%= comment.body %></li>
+  <% end %>
+</ul>
+
+<.form let={f} for={@comment_changeset} phx-submit="post_comment">
+  <%= text_input f, :body %>
+  <div>
+    <%= submit "Post", phx_disable_with: "Posting..." %>
+  </div>
+</.form>
+
 <span><%= live_patch "Edit", to: Routes.article_show_path(@socket, :edit, @article), class: "button" %></span> |
 <span><%= link "Delete", to: "#", class: "button", phx_click: "delete", data: [confirm: "Are you sure?"] %></span> |
 <span><%= live_redirect "Back", to: Routes.article_index_path(@socket, :index) %></span>

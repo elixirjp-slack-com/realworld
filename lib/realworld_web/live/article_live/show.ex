@@ -7,7 +7,7 @@ defmodule RealworldWeb.ArticleLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, :comment_changeset, Blogs.change_comment(%Blogs.Comment{}))}
   end
 
   @impl true
@@ -48,6 +48,29 @@ defmodule RealworldWeb.ArticleLive.Show do
       redirect_path = Routes.article_index_path(socket, :index)
       {:noreply, push_redirect(socket, to: redirect_path)}
     end
+  end
+
+  @impl true
+  def handle_event("post_comment", %{"comment" => comment_params}, socket) do
+    case create_comment(comment_params, socket) do
+      {:ok, _} ->
+        article = Blogs.get_article!(socket.assigns.article.id) 
+        {:noreply, assign(socket, :article, article)}
+      _ ->
+        {:noreply, socket}
+    end
+  end
+
+  defp create_comment(comment_params, socket) do
+    %{
+      article: article,
+      current_user: user
+    } = socket.assigns
+
+    comment_params
+    |> Map.put("article_id", article.id)
+    |> Map.put("author_id", user.id)
+    |> Blogs.create_comment()
   end
 
   defp page_title(:show), do: "Show Article"
