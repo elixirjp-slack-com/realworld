@@ -33,6 +33,23 @@ defmodule RealworldWeb.ArticleLive.Show do
     end
   end
 
+  @impl true
+  def handle_event("delete", _value, socket) do
+    %{
+      article: article,
+      current_user: user
+    } = socket.assigns
+    author_id = article.author_id
+
+    if author_id != user.id do
+      {:noreply, put_flash(socket, :error, "You can't delete this article")}
+    else
+      {:ok, _} = Blogs.delete_article(article)
+      redirect_path = Routes.article_index_path(socket, :index)
+      {:noreply, push_redirect(socket, to: redirect_path)}
+    end
+  end
+
   defp page_title(:show), do: "Show Article"
   defp page_title(:edit), do: "Edit Article"
 end
