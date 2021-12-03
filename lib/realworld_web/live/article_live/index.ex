@@ -3,7 +3,6 @@ defmodule RealworldWeb.ArticleLive.Index do
 
   alias Realworld.Blogs
   alias Realworld.Blogs.Article
-  alias Realworld.Accounts
 
   on_mount RealWorldWeb.CurrentUserAssign
 
