@@ -1,5 +1,18 @@
 <h1>Listing Articles</h1>
 
+<div>
+  <%= for tag <- @tags do %>
+    <a
+      href="#" 
+      phx-click="search_by_tag" 
+      phx-value-tag={tag.tag}>
+
+      <%= tag.tag %>
+
+    </a>
+  <% end %>
+</div>
+
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal RealworldWeb.ArticleLive.FormComponent,
     id: @article.id || :new,

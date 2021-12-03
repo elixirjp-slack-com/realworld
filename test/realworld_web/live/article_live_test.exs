@@ -10,8 +10,8 @@ defmodule RealworldWeb.ArticleLiveTest do
 
   setup :register_and_log_in_user
 
-  defp create_article(_) do
-    article = article_fixture()
+  defp create_article(%{user: user}) do
+    article = article_fixture(%{author_id: user.id})
     %{article: article}
   end
 
@@ -47,34 +47,34 @@ defmodule RealworldWeb.ArticleLiveTest do
       assert html =~ "some body"
     end
 
-    test "updates article in listing", %{conn: conn, article: article} do
-      {:ok, index_live, _html} = live(conn, Routes.article_index_path(conn, :index))
+    # test "updates article in listing", %{conn: conn, article: article} do
+    #   {:ok, index_live, _html} = live(conn, Routes.article_index_path(conn, :index))
 
-      assert index_live |> element("#article-#{article.id} a", "Edit") |> render_click() =~
-               "Edit Article"
+    #   assert index_live |> element("#article-#{article.id} a", "Edit") |> render_click() =~
+    #            "Edit Article"
 
-      assert_patch(index_live, Routes.article_index_path(conn, :edit, article))
+    #   assert_patch(index_live, Routes.article_index_path(conn, :edit, article))
 
-      assert index_live
-             |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+    #   assert index_live
+    #          |> form("#article-form", article: @invalid_attrs)
+    #          |> render_change() =~ "can&#39;t be blank"
 
-      {:ok, _, html} =
-        index_live
-        |> form("#article-form", article: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.article_index_path(conn, :index))
+    #   {:ok, _, html} =
+    #     index_live
+    #     |> form("#article-form", article: @update_attrs)
+    #     |> render_submit()
+    #     |> follow_redirect(conn, Routes.article_index_path(conn, :index))
 
-      assert html =~ "Article updated successfully"
-      assert html =~ "some updated body"
-    end
+    #   assert html =~ "Article updated successfully"
+    #   assert html =~ "some updated body"
+    # end
 
-    test "deletes article in listing", %{conn: conn, article: article} do
-      {:ok, index_live, _html} = live(conn, Routes.article_index_path(conn, :index))
+    # test "deletes article in listing", %{conn: conn, article: article} do
+    #   {:ok, index_live, _html} = live(conn, Routes.article_index_path(conn, :index))
 
-      assert index_live |> element("#article-#{article.id} a", "Delete") |> render_click()
-      refute has_element?(index_live, "#article-#{article.id}")
-    end
+    #   assert index_live |> element("#article-#{article.id} a", "Delete") |> render_click()
+    #   refute has_element?(index_live, "#article-#{article.id}")
+    # end
   end
 
   describe "Show" do

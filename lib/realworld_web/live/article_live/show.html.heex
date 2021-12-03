@@ -31,8 +31,14 @@
   <% end %>
 </ul>
 
-<.form let={f} for={@comment_changeset} phx-submit="post_comment">
+<.form
+  let={f}
+  for={@comment_changeset}
+  phx-submit="post_comment">
+
   <%= text_input f, :body %>
+  <%= error_tag f, :body %>
+
   <div>
     <%= submit "Post", phx_disable_with: "Posting..." %>
   </div>

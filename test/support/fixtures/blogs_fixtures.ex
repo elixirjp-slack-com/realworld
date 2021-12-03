@@ -15,7 +15,7 @@ defmodule Realworld.BlogsFixtures do
       |> Enum.into(%{
         body: "some body",
         title: "some title",
-        author_id: Map.get(user_fixture(), :id)
+        author_id: attrs[:author_id] || Map.get(user_fixture(), :id)
       })
       |> Realworld.Blogs.create_article()
 
@@ -36,5 +36,24 @@ defmodule Realworld.BlogsFixtures do
       |> Realworld.Blogs.create_comment()
 
     comment
+  end
+
+  @doc """
+  Generate a unique tag tag.
+  """
+  def unique_tag_tag, do: "some tag#{System.unique_integer([:positive])}"
+
+  @doc """
+  Generate a tag.
+  """
+  def tag_fixture(attrs \\ %{}) do
+    {:ok, tag} =
+      attrs
+      |> Enum.into(%{
+        tag: unique_tag_tag()
+      })
+      |> Realworld.Blogs.create_tag()
+
+    tag
   end
 end

@@ -7,12 +7,12 @@ defmodule RealworldWeb.ArticleLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :comment_changeset, Blogs.change_comment(%Blogs.Comment{}))}
+    {:ok, assign(socket, :comment_changeset, change_comment())}
   end
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    article = Blogs.get_article!(id)
+    article = get_article!(id)
     %{
       live_action: action,
       current_user: user
@@ -54,12 +54,19 @@ defmodule RealworldWeb.ArticleLive.Show do
   def handle_event("post_comment", %{"comment" => comment_params}, socket) do
     case create_comment(comment_params, socket) do
       {:ok, _} ->
-        article = Blogs.get_article!(socket.assigns.article.id) 
-        {:noreply, assign(socket, :article, article)}
-      _ ->
-        {:noreply, socket}
+        article = get_article!(socket.assigns.article.id) 
+        {:noreply,
+         socket
+         |> assign(:article, article)
+         |> assign(:comment_changeset, change_comment())}
+      {:error, changeset} ->
+        {:noreply, assign(socket, :comment_changeset, changeset)}
     end
   end
+
+  defp get_article!(id), do: Blogs.get_article!(id) |> Realworld.Repo.preload(:comments)
+
+  defp change_comment, do: Blogs.change_comment(%Blogs.Comment{})
 
   defp create_comment(comment_params, socket) do
     %{
