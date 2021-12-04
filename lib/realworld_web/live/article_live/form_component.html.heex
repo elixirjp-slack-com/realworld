@@ -21,7 +21,7 @@
 
     <%= label f, :tags_string %>
     <%= text_input f, :tags_string,
-      value: @article.tags |> Enum.map(&(&1.tag)) |> Enum.join(","),
+      value: if(Ecto.get_meta(@article, :state) == :loaded, do: @article.tags |> Enum.map(&(&1.tag)) |> Enum.join(",")),
       placeholder: "Input tags separated by comma" %>
     <%= error_tag f, :tags_string %>
 
