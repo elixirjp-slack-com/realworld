@@ -67,7 +67,7 @@ defmodule Realworld.BlogsTest do
     test "list_articles_by_tag/1" do
       author = user_fixture()
 
-      {:ok, %{article: article1}} =
+      {:ok, %{article: a1}} =
         Blogs.insert_article_with_tags(%{
           title: "t",
           body: "b",
@@ -75,7 +75,7 @@ defmodule Realworld.BlogsTest do
           author_id: author.id
         })
 
-      {:ok, %{article: article2}} =
+      {:ok, %{article: a2}} =
         Blogs.insert_article_with_tags(%{
           title: "t",
           body: "b",
@@ -84,16 +84,14 @@ defmodule Realworld.BlogsTest do
         })
 
       assert Blogs.list_articles_by_tag("Elixir")
-             |> Enum.any?(&(&1.id == article1.id))
-
-      assert Blogs.list_articles_by_tag("Elixir")
-             |> Enum.any?(&(&1.id == article2.id))
+             |> Enum.map(& &1.id)
+             |> MapSet.new()
+             |> MapSet.equal?(MapSet.new([a1.id, a2.id]))
 
       assert Blogs.list_articles_by_tag("Phoenix")
-             |> Enum.any?(&(&1.id == article1.id))
-
-      refute Blogs.list_articles_by_tag("Phoenix")
-             |> Enum.any?(&(&1.id == article2.id))
+             |> Enum.map(& &1.id)
+             |> MapSet.new()
+             |> MapSet.equal?(MapSet.new([a1.id]))
 
       assert Blogs.list_articles_by_tag("Python") |> Enum.count() |> Kernel.==(0)
     end
