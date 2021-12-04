@@ -28,6 +28,7 @@ defmodule RealworldWeb.ArticleLiveTest do
         author_id: user.id,
         tags_string: "test"
       })
+
     %{article_with_tag: article}
   end
 
@@ -45,7 +46,11 @@ defmodule RealworldWeb.ArticleLiveTest do
       assert html =~ article.body
     end
 
-    test "searches articles by tag", %{conn: conn, article: article, article_with_tag: article_with_tag} do
+    test "searches articles by tag", %{
+      conn: conn,
+      article: article,
+      article_with_tag: article_with_tag
+    } do
       {:ok, index_live, _html} = live(conn, Routes.article_index_path(conn, :index))
 
       html =

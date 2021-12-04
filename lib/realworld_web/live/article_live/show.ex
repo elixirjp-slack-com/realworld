@@ -13,14 +13,17 @@ defmodule RealworldWeb.ArticleLive.Show do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     article = get_article!(id)
+
     %{
       live_action: action,
       current_user: user
     } = socket.assigns
+
     author_id = article.author_id
 
     if action == :edit && author_id != user.id do
       redirect_path = Routes.article_show_path(socket, :show, article)
+
       {:noreply,
        socket
        |> put_flash(:error, "You can't edit this article")
@@ -39,6 +42,7 @@ defmodule RealworldWeb.ArticleLive.Show do
       article: article,
       current_user: user
     } = socket.assigns
+
     author_id = article.author_id
 
     if author_id != user.id do
@@ -54,11 +58,13 @@ defmodule RealworldWeb.ArticleLive.Show do
   def handle_event("post_comment", %{"comment" => comment_params}, socket) do
     case create_comment(comment_params, socket) do
       {:ok, _} ->
-        article = get_article!(socket.assigns.article.id) 
+        article = get_article!(socket.assigns.article.id)
+
         {:noreply,
          socket
          |> assign(:article, article)
          |> assign(:comment_changeset, change_comment())}
+
       {:error, changeset} ->
         {:noreply, assign(socket, :comment_changeset, changeset)}
     end
