@@ -21,6 +21,13 @@
     <%= @article.body %>
   </li>
 
+  <li>
+    <strong>Tags:</strong>
+    <%= for tag <- @article.tags do %>
+      <%= tag.tag %>
+    <% end %>
+  </li>
+
 </ul>
 
 <h2>Comments</h2>

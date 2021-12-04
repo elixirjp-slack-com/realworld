@@ -201,7 +201,7 @@ defmodule Realworld.Blogs do
 
   def list_articles_by_tag(tag_name) do
     query = from a in Article, join: t in assoc(a, :tags), on: t.tag == ^tag_name
-    Repo.all(query)
+    Repo.all(query) |> Repo.preload(:tags)
   end
 
   def insert_article_with_tags(attrs) do
