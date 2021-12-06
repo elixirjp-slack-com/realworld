@@ -13,7 +13,7 @@ defmodule Realworld.Blogs.Article do
 
     belongs_to :author, User
     has_many :comments, Comment
-    many_to_many :tags, Tag, join_through: ArticleTag, on_replace: :delete
+    many_to_many :tags, Tag, join_through: ArticleTag, on_replace: :delete, on_delete: :delete_all
 
     timestamps()
   end
