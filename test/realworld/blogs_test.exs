@@ -58,6 +58,19 @@ defmodule Realworld.BlogsTest do
       assert_raise Ecto.NoResultsError, fn -> Blogs.get_article!(article.id) end
     end
 
+    test "delete_article/1 deletes the article with tags" do
+      {:ok, %{article: article}} =
+        Blogs.insert_article_with_tags(%{
+          title: "title",
+          body: "body",
+          tags_string: "Elixir, Phoenix, Nerves, Nx",
+          author_id: Map.get(user_fixture(), :id)
+        })
+
+      assert {:ok, %Article{}} = Blogs.delete_article(article)
+      assert_raise Ecto.NoResultsError, fn -> Blogs.get_article!(article.id) end
+    end
+
     test "change_article/1 returns a article changeset" do
       article = article_fixture()
       assert %Ecto.Changeset{} = Blogs.change_article(article)
