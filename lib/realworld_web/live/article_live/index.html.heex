@@ -1,5 +1,18 @@
 <h1>Listing Articles</h1>
 
+<div>
+  <%= for tag <- @tags do %>
+    <a
+      href="#" 
+      phx-click="search_by_tag" 
+      phx-value-tag={tag.tag}>
+
+      <%= tag.tag %>
+
+    </a>
+  <% end %>
+</div>
+
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal RealworldWeb.ArticleLive.FormComponent,
     id: @article.id || :new,
@@ -14,6 +27,7 @@
     <tr>
       <th>Title</th>
       <th>Body</th>
+      <th>Tags</th>
 
       <th></th>
     </tr>
@@ -23,11 +37,16 @@
       <tr id={"article-#{article.id}"}>
         <td><%= article.title %></td>
         <td><%= article.body %></td>
+        <td>
+          <%= for tag <- article.tags do %>
+            <%= tag.tag %>
+          <% end %>
+        </td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.article_show_path(@socket, :show, article) %></span>
-          <span><%= live_patch "Edit", to: Routes.article_index_path(@socket, :edit, article) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: article.id, data: [confirm: "Are you sure?"] %></span>
+          <span><%#= live_patch "Edit", to: Routes.article_index_path(@socket, :edit, article) %></span>
+          <span><%#= link "Delete", to: "#", phx_click: "delete", phx_value_id: article.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
     <% end %>

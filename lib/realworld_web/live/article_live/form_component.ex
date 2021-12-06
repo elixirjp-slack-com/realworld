@@ -28,27 +28,27 @@ defmodule RealworldWeb.ArticleLive.FormComponent do
   end
 
   defp save_article(socket, :edit, article_params) do
-    case Blogs.update_article(socket.assigns.article, article_params) do
+    case Blogs.insert_or_update_article_with_tags(socket.assigns.article, article_params) do
       {:ok, _article} ->
         {:noreply,
          socket
          |> put_flash(:info, "Article updated successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, _, %Ecto.Changeset{} = changeset, _} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end
 
   defp save_article(socket, :new, article_params) do
-    case Blogs.create_article(article_params) do
+    case Blogs.insert_article_with_tags(article_params) do
       {:ok, _article} ->
         {:noreply,
          socket
          |> put_flash(:info, "Article created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, _, %Ecto.Changeset{} = changeset, _} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
