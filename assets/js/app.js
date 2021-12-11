@@ -11,9 +11,9 @@ import "../css/app.css"
 // The simplest option is to put them in assets/vendor and
 // import them using relative paths:
 //
-//     import "./vendor/some-package.js"
+//     import "../vendor/some-package.js"
 //
-// Alternatively, you can `npm install some-package` and import
+// Alternatively, you can `npm install some-package --prefix assets` and import
 // them using a path starting with the package name:
 //
 //     import "some-package"
@@ -42,3 +42,4 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
+
