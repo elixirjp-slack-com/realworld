@@ -32,14 +32,6 @@
 
               <%= for article <- @articles do %>
                 <div id={"article-#{article.id}"} class="article-preview">
-                    <div class="article-meta">
-                        <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
-
-                        <div class="info">
-                            <a href="" class="author">Eric Simons</a>
-                            <span class="date">January 20th</span>
-                        </div>
-                    </div>
                     <%= live_redirect to: Routes.article_show_path(@socket, :show, article) do %>
                         <h1><%= article.title %></h1>
                         <p><%= article.body %></p>
