@@ -4,7 +4,7 @@ defmodule RealworldWeb.ArticleLive.Index do
   alias Realworld.Blogs
   alias Realworld.Blogs.Article
 
-  on_mount RealWorldWeb.CurrentUserAssign
+  on_mount {RealWorldWeb.CurrentUserAssign, :user}
 
   @impl true
   def mount(_params, _session, socket) do
