@@ -3,23 +3,15 @@ defmodule RealworldWeb.ArticleLive.Index do
 
   alias Realworld.Blogs
   alias Realworld.Blogs.Article
-  alias Realworld.Accounts
 
   on_mount RealWorldWeb.CurrentUserAssign
 
   @impl true
-  def mount(_params, session, socket) do
-    current_user =
-      case session["user_token"] do
-        nil -> nil
-        token -> Accounts.get_user_by_session_token(token)
-      end
-
+  def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(:articles, list_articles())
-     |> assign(:tags, Blogs.list_tags())
-     |> assign(:current_user, current_user)}
+     |> assign(:tags, Blogs.list_tags())}
   end
 
   @impl true
