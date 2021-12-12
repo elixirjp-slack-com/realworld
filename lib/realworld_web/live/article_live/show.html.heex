@@ -1,5 +1,3 @@
-<h1>Show Article</h1>
-
 <%= if @live_action in [:edit] do %>
   <%= live_modal RealworldWeb.ArticleLive.FormComponent,
     id: @article.id,
@@ -9,48 +7,67 @@
     return_to: Routes.article_show_path(@socket, :show, @article) %>
 <% end %>
 
-<ul>
+<div class="article-page">
+  <div class="banner">
+    <div class="container">
+      <h1><%= @article.title %></h1>
+    </div>
 
-  <li>
-    <strong>Title:</strong>
-    <%= @article.title %>
-  </li>
-
-  <li>
-    <strong>Body:</strong>
-    <%= @article.body %>
-  </li>
-
-  <li>
-    <strong>Tags:</strong>
-    <%= for tag <- @article.tags do %>
-      <%= tag.tag %>
-    <% end %>
-  </li>
-
-</ul>
-
-<h2>Comments</h2>
-
-<ul>
-  <%= for comment <- @article.comments do %>
-    <li><%= comment.body %></li>
-  <% end %>
-</ul>
-
-<.form
-  let={f}
-  for={@comment_changeset}
-  phx-submit="post_comment">
-
-  <%= text_input f, :body %>
-  <%= error_tag f, :body %>
-
-  <div>
-    <%= submit "Post", phx_disable_with: "Posting..." %>
   </div>
-</.form>
 
-<span><%= live_patch "Edit", to: Routes.article_show_path(@socket, :edit, @article), class: "button" %></span> |
-<span><%= link "Delete", to: "#", class: "button", phx_click: "delete", data: [confirm: "Are you sure?"] %></span> |
-<span><%= live_redirect "Back", to: Routes.article_index_path(@socket, :index) %></span>
+  <div class="container page">
+
+    <div class="row article-content">
+      <div class="col-md-12">
+        <%= @article.body %>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="article-actions">
+      <%= live_patch to: Routes.article_show_path(@socket, :edit, @article), class: "btn btn-outline-secondary btn-sm" do %>
+        <i class="ion-edit"></i> Edit Article
+      <% end %>
+
+      <%= link to: "#", class: "btn btn-outline-danger btn-sm", phx_click: "delete", data: [confirm: "Are you sure?"] do %>
+        <i class="ion-trash-a"></i> Delete Article
+      <% end %>
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-12 col-md-8 offset-md-2">
+
+        <%= unless is_nil(@current_user) do %>
+        <.form class="card comment-form"
+          let={f}
+          for={@comment_changeset}
+          phx-submit="post_comment">
+          <div class="card-block">
+            <%= textarea f, :body, class: "form-control", placeholder: "Write a comment..." %>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-sm btn-primary">
+             Post Comment
+            </button>
+          </div>
+        </.form>
+        <% end %>
+        
+        <%= for comment <- @article.comments do%>
+        <div class="card">
+          <div class="card-block">
+            <p class="card-text"><%= comment.body %></p>
+          </div>
+          <div class="card-footer">
+          <span class="comment-author ion-person"></span>
+            &nbsp;
+          </div>
+        </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
