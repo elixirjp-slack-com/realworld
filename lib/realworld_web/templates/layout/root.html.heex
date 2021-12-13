@@ -20,14 +20,15 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
 
     <style>
-    .alert:empty {
-      display: none;
+    <%# /assets/app.cssのheaderスタイルを上書き %>
+    header {
+      margin: 0px;
     }
     </style>
   </head>
   <body>
     <header>
-      <section class="container" style="display: block;">
+      <section style="display: block;">
         <nav class="navbar navbar-light">
           <div class="container">
             <a class="navbar-brand" href="/articles">conduit</a>
