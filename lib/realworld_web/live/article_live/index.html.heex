@@ -1,18 +1,3 @@
-<h1>Listing Articles</h1>
-
-<div>
-  <%= for tag <- @tags do %>
-    <a
-      href="#" 
-      phx-click="search_by_tag" 
-      phx-value-tag={tag.tag}>
-
-      <%= tag.tag %>
-
-    </a>
-  <% end %>
-</div>
-
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal RealworldWeb.ArticleLive.FormComponent,
     id: @article.id || :new,
@@ -22,35 +7,62 @@
     return_to: Routes.article_index_path(@socket, :index) %>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Body</th>
-      <th>Tags</th>
+<div class="home-page">
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="articles">
-    <%= for article <- @articles do %>
-      <tr id={"article-#{article.id}"}>
-        <td><%= article.title %></td>
-        <td><%= article.body %></td>
-        <td>
-          <%= for tag <- article.tags do %>
-            <%= tag.tag %>
-          <% end %>
-        </td>
+  <div class="banner">
+      <div class="container">
+          <h1 class="logo-font">conduit</h1>
+          <p>A place to share your knowledge.</p>
+      </div>
+  </div>
 
-        <td>
-          <span><%= live_redirect "Show", to: Routes.article_show_path(@socket, :show, article) %></span>
-          <span><%#= live_patch "Edit", to: Routes.article_index_path(@socket, :edit, article) %></span>
-          <span><%#= link "Delete", to: "#", phx_click: "delete", phx_value_id: article.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<span><%= live_patch "New Article", to: Routes.article_index_path(@socket, :new) %></span>
+  <div class="container page">
+      <span><%= live_patch "New Article", to: Routes.article_index_path(@socket, :new) %></span>
+      <div class="row">
+
+          <div class="col-md-9">
+              <div class="feed-toggle">
+                  <ul class="nav nav-pills outline-active">
+                      <li class="nav-item">
+                          <a class="nav-link active" href="">Global Feed</a>
+                      </li>
+                  </ul>
+              </div>
+
+              <%= for article <- @articles do %>
+                <div id={"article-#{article.id}"} class="article-preview">
+                    <%= live_redirect to: Routes.article_show_path(@socket, :show, article) do %>
+                        <h1><%= article.title %></h1>
+                        <p><%= article.body %></p>
+                    <% end %>
+
+                    <div class="tag-list">
+                      <%= for tag <- article.tags do %>
+                        <span class="tag-pill tag-default"><%= tag.tag %></span>
+                      <% end %>
+                    </div>
+                </div>
+              <% end %>
+          </div>
+
+          <div class="col-md-3">
+              <div class="sidebar">
+                  <p>Popular Tags</p>
+
+                  <div class="tag-list">
+                      <%= for tag <- @tags do %>
+                        <a href="#"
+                          class="tag-pill tag-default"
+                          phx-click="search_by_tag"
+                          phx-value-tag={tag.tag}>
+                          <%= tag.tag %>
+                        </a>
+                      <% end %>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
