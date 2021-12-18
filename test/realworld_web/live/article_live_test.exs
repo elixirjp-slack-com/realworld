@@ -42,7 +42,6 @@ defmodule RealworldWeb.ArticleLiveTest do
     test "lists all articles", %{conn: conn, article: article} do
       {:ok, _index_live, html} = live(conn, Routes.article_index_path(conn, :index))
 
-      assert html =~ "Listing Articles"
       assert html =~ article.body
     end
 
@@ -120,7 +119,6 @@ defmodule RealworldWeb.ArticleLiveTest do
     test "displays article", %{conn: conn, article: article} do
       {:ok, _show_live, html} = live(conn, Routes.article_show_path(conn, :show, article))
 
-      assert html =~ "Show Article"
       assert html =~ article.body
     end
 
