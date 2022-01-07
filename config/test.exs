@@ -11,8 +11,8 @@ config :bcrypt_elixir, :log_rounds, 1
 config :realworld, Realworld.Repo,
   username: "postgres",
   password: "postgres",
-  database: "realworld_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
+  database: "realworld_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
