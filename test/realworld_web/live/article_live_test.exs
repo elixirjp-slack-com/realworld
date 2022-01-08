@@ -3,6 +3,7 @@ defmodule RealworldWeb.ArticleLiveTest do
 
   import Phoenix.LiveViewTest
   import Realworld.BlogsFixtures
+  import Realworld.AccountsFixtures
 
   @create_attrs %{body: "some body", title: "some title"}
   @update_attrs %{body: "some updated body", title: "some updated title"}
@@ -20,12 +21,12 @@ defmodule RealworldWeb.ArticleLiveTest do
     %{tag: tag}
   end
 
-  defp create_article_with_tag(%{user: user}) do
+  defp create_article_with_tag(_) do
     {:ok, %{article: article}} =
       Realworld.Blogs.insert_article_with_tags(%{
         title: "some title",
         body: "some body",
-        author_id: user.id,
+        author_id: user_fixture().id,
         tags_string: "test"
       })
 
