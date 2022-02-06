@@ -1,83 +1,89 @@
 # Realworld
 
-## Run on local machine
+これは[WEB+DB PRESS Vol.127](https://gihyo.jp/magazine/wdpress/archive/2022/vol127)の特集「Elixirによる高速なWeb開発！　作って学ぶPhoenix」のサンプルコードです。
 
-### Requirements
+![表紙画像](https://user-images.githubusercontent.com/4215723/152686942-be6d5ffd-fe7b-4a0d-9e38-c264705c182b.jpeg)
 
-- Elixir
+## ローカルマシンで動かす
+
+ローカルマシン上で直接、サンプルコードを動かす場合の手順です。
+
+### 必要なもの
+
+事前に必要なものは次の2点です。
+
+- Elixir 1.12 or later
 - PostgreSQL
 
-Please refer to [Installation](https://hexdocs.pm/phoenix/installation.html#content).
+詳しくは、[WEB+DB PRESS Vol.127](https://gihyo.jp/magazine/wdpress/archive/2022/vol127)の特集「Elixirによる高速なWeb開発！　作って学ぶPhoenix」をご参照ください。
+
+
+### 環境構築
+
+環境構築は次の通りです。
+
+```
+$ git clone https://github.com/elixirjp-slack-com/realworld.git
+$ cd realworld
+$ mix setup
+```
 
 ### Run
 
+実行は、次のコマンドにより行います。
+
 ```
-$ mix setup
 $ mix phx.server
 ```
 
-Visit: http://localhost:4000/articles
+http://localhost:4000/articles
+にアクセスをしてください。
 
-### Test
+### テスト
+
+テストは、次のコマンドにより実施できます。
 
 ```
 $ mix test
 ```
 
+---
 
-## Run on [Docker](https://www.docker.com/)
+## [Docker](https://www.docker.com/)上で動かす
 
-### Requirements
+ローカルマシンに、インストールした[Docker](https://www.docker.com/)上で「すべて」を動かす手順です。
 
-- [Docker](https://www.docker.com/)
+ここで言う「すべて」とは、Elixir、Phoenix、PostgreSQLを指します。
 
-### Configuration
+### 必要なもの
 
-#### config/dev.exs
+事前に必要なものは、[Docker](https://www.docker.com/)のみです。
 
-```diff
- config :realworld, Realworld.Repo,
-   username: "postgres",
-   password: "postgres",
--  hostname: "localhost",
-+  hostname: "db",
-   database: "realworld_dev",
-   show_sensitive_data_on_connection_error: true,
-   pool_size: 10
 
- config :realworld, RealworldWeb.Endpoint,
-   # Binding to loopback ipv4 address prevents access from other machines.
-   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
--  http: [ip: {127, 0, 0, 1}, port: 4000],
-+  http: [ip: {0, 0, 0, 0}, port: 4000],
-   check_origin: false,
-   code_reloader: true,
-   debug_errors: true,
+### 環境構築
+
+環境構築は次の通りです。
+
 ```
-
-#### config/test.exs
-
-```diff
- config :realworld, Realworld.Repo,
-   username: "postgres",
-   password: "postgres",
--  hostname: "localhost",
-+  hostname: "db",
-   database: "realworld_test#{System.get_env("MIX_TEST_PARTITION")}",
-   pool: Ecto.Adapters.SQL.Sandbox,
-   pool_size: 10
+$ git clone https://github.com/elixirjp-slack-com/realworld.git
+$ cd realworld
+$ docker-compose build --no-cache
 ```
 
 ### Run
 
+実行は、次のコマンドにより行います。
+
 ```
-$ docker-compose build
-$ docker-compose up
+$ docker-compose up -d
 ```
 
-Visit: http://localhost:4000/articles
+http://localhost:4000/articles
+にアクセスをしてください。
 
-### Test
+### テスト
+
+テストは、次のコマンドにより実施できます。
 
 ```
 $ docker-compose run --rm web mix test
@@ -85,17 +91,30 @@ $ docker-compose run --rm web mix test
 
 ### Stop
 
+次のコマンドで停止できます。
+
 ```
 $ docker-compose stop
 ```
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+---
 
-## Learn more
+## 本番運用したい
+
+[deployment guides](https://hexdocs.pm/phoenix/deployment.html)をご参照ください。
+
+## もっと学びたい
 
   * Official website: https://www.phoenixframework.org/
   * Guides: https://hexdocs.pm/phoenix/overview.html
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
-  * [elixirjp.slack.com](https://join.slack.com/t/elixirjp/shared_invite/zt-ae8m5bad-WW69GH1w4iuafm1tKNgd~w): Hope you'll join us!
+
+## [elixirjp.slack.com](https://join.slack.com/t/elixirjp/shared_invite/zt-ae8m5bad-WW69GH1w4iuafm1tKNgd~w)
+
+[elixirjp.slack.com](https://join.slack.com/t/elixirjp/shared_invite/zt-ae8m5bad-WW69GH1w4iuafm1tKNgd~w)に、執筆陣はおります。
+
+ぜひ飛び込んできてください。
+
+あなたの参加を熱烈歓迎いたします:tada:
