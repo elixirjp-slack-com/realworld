@@ -6,6 +6,8 @@ services:
       - '4000:4000'
     volumes:
       - .:/app
+    environment:
+      WEB_DB_PRESS_VOL_127_DB_HOST: db
     depends_on:
       - db
 
