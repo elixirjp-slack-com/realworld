@@ -12,8 +12,9 @@
 
 事前に必要なものは次の2点です。
 
-- Elixir 1.12 or later
-- PostgreSQL
+- Elixir 1.13 or later
+- Erlang 24.0 or later
+- PostgreSQL 13 or later
 
 詳しくは、[WEB+DB PRESS Vol.127](https://gihyo.jp/magazine/wdpress/archive/2022/vol127)の特集「Elixirによる高速なWeb開発！　作って学ぶPhoenix」をご参照ください。
 
