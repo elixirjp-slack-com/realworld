@@ -8,6 +8,8 @@
 
 ローカルマシン上で直接、サンプルコードを動かす場合の手順です。
 
+macOS Catalina(10.15.7)、macOS Monterey(12.2)で動作することを確認しています。
+
 ### 必要なもの
 
 事前に必要なものは次の2点です。
@@ -55,6 +57,13 @@ $ mix test
 ローカルマシンに、インストールした[Docker](https://www.docker.com/)上で「すべて」を動かす手順です。
 
 ここで言う「すべて」とは、Elixir、Phoenix、PostgreSQLを指します。
+
+以下の環境で動作することを確認しています。
+
+- macOS Monterey(12.2)、macOS Catalina(10.15.7)
+  - Docker Desktop 4.4.2
+- Windows 11 Home(バージョン 21H2, OS ビルド 22000.434)
+  - Docker Desktop 4.4.4
 
 ### 必要なもの
 
