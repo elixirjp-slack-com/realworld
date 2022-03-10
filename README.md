@@ -121,6 +121,14 @@ $ docker-compose stop
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
 
+## [お詫びと訂正（正誤表）](https://gihyo.jp/magazine/wdpress/archive/2022/vol127/support)
+
+ご迷惑をおかけしたことを深くお詫び申し上げます。
+
+正誤表は[コチラ](https://gihyo.jp/magazine/wdpress/archive/2022/vol127/support)です。
+
+もし、他に誤りなどを見つけられた場合には、お手数をおかけいたしますが[Issueを起票](https://github.com/elixirjp-slack-com/realworld/issues/new)していただけますと幸いです。
+
 ## [elixirjp.slack.com](https://join.slack.com/t/elixirjp/shared_invite/zt-ae8m5bad-WW69GH1w4iuafm1tKNgd~w)
 
 [elixirjp.slack.com](https://join.slack.com/t/elixirjp/shared_invite/zt-ae8m5bad-WW69GH1w4iuafm1tKNgd~w)に、執筆陣はおります。
